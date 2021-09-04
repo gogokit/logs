@@ -7,9 +7,12 @@ import (
 	"github.com/cihub/seelog"
 )
 
+type ContextKey string
+
+const LogIdContextKey ContextKey = "X_LOG_ID"
+
 const (
-	LogIdContextKey = "X_LOG_ID"
-	DefaultConfig   = `<!-- type: 设置记录器类型, 参考:https://github.com/cihub/seelog/wiki/Logger-types-reference -->
+	DefaultConfig = `<!-- type: 设置记录器类型, 参考:https://github.com/cihub/seelog/wiki/Logger-types-reference -->
 	<seelog type="asynctimer" asyncinterval="50000000" minlevel="trace" maxlevel="critical">
 		<!-- <outputs> -->
 		<outputs formatid="main">
@@ -56,51 +59,51 @@ func InitFromConfigAsFile(filePath string) {
 }
 
 func Trace(params ...interface{}) {
-	seeLogIns.Trace(params)
+	seeLogIns.Trace(params...)
 }
 
 func Debug(params ...interface{}) {
-	seeLogIns.Debug(params)
+	seeLogIns.Debug(params...)
 }
 
 func Info(params ...interface{}) {
-	seeLogIns.Info(params)
+	seeLogIns.Info(params...)
 }
 
 func Warn(params ...interface{}) {
-	seeLogIns.Warn(params)
+	seeLogIns.Warn(params...)
 }
 
 func Error(params ...interface{}) {
-	seeLogIns.Error(params)
+	seeLogIns.Error(params...)
 }
 
 func Critical(params ...interface{}) {
-	seeLogIns.Critical(params)
+	seeLogIns.Critical(params...)
 }
 
 func CtxTrace(ctx context.Context, format string, params ...interface{}) {
-	seeLogIns.Tracef(newFormatWithLogId(ctx, format), params)
+	seeLogIns.Tracef(newFormatWithLogId(ctx, format), params...)
 }
 
 func CtxDebug(ctx context.Context, format string, params ...interface{}) {
-	seeLogIns.Debugf(newFormatWithLogId(ctx, format), params)
+	seeLogIns.Debugf(newFormatWithLogId(ctx, format), params...)
 }
 
 func CtxInfo(ctx context.Context, format string, params ...interface{}) {
-	seeLogIns.Infof(newFormatWithLogId(ctx, format), params)
+	seeLogIns.Infof(newFormatWithLogId(ctx, format), params...)
 }
 
 func CtxWarn(ctx context.Context, format string, params ...interface{}) {
-	seeLogIns.Warnf(newFormatWithLogId(ctx, format), params)
+	seeLogIns.Warnf(newFormatWithLogId(ctx, format), params...)
 }
 
 func CtxError(ctx context.Context, format string, params ...interface{}) {
-	seeLogIns.Errorf(newFormatWithLogId(ctx, format), params)
+	seeLogIns.Errorf(newFormatWithLogId(ctx, format), params...)
 }
 
 func CtxCritical(ctx context.Context, format string, params ...interface{}) {
-	seeLogIns.Criticalf(newFormatWithLogId(ctx, format), params)
+	seeLogIns.Criticalf(newFormatWithLogId(ctx, format), params...)
 }
 
 func Flush() {
@@ -113,6 +116,14 @@ func GenLogId() string {
 
 func CtxWithLogId(ctx context.Context, logId string) context.Context {
 	return context.WithValue(ctx, LogIdContextKey, logId)
+}
+
+func GetLogId(ctx context.Context) string {
+	if ctx == nil {
+		return ""
+	}
+	logId, _ := ctx.Value(LogIdContextKey).(string)
+	return logId
 }
 
 func newFormatWithLogId(ctx context.Context, format string) string {
