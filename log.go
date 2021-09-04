@@ -50,6 +50,7 @@ func InitFromConfigAsString(conf string) {
 	if seeLogIns, err = seelog.LoggerFromConfigAsBytes([]byte(conf)); err != nil {
 		panic(err)
 	}
+	seeLogIns.SetAdditionalStackDepth(1)
 }
 
 func InitFromConfigAsFile(filePath string) {
@@ -57,6 +58,7 @@ func InitFromConfigAsFile(filePath string) {
 	if seeLogIns, err = seelog.LoggerFromConfigAsFile(filePath); err != nil {
 		panic(err)
 	}
+	seeLogIns.SetAdditionalStackDepth(1)
 }
 
 func Trace(params ...interface{}) {
