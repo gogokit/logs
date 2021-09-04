@@ -111,7 +111,7 @@ func Flush() {
 }
 
 func GenLogId() string {
-	return time.Now().Format("20060102150405999999999")
+	return time.Now().Format("20060102150405000000000")
 }
 
 func CtxWithLogId(ctx context.Context, logId string) context.Context {
