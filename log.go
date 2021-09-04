@@ -2,6 +2,7 @@ package logs
 
 import (
 	"context"
+	"strconv"
 	"time"
 
 	"github.com/cihub/seelog"
@@ -111,7 +112,8 @@ func Flush() {
 }
 
 func GenLogId() string {
-	return time.Now().Format("20060102150405000000000")
+	t := time.Now()
+	return t.Format("20060102150405") + strconv.FormatInt(t.UnixNano()%1e9, 10)
 }
 
 func CtxWithLogId(ctx context.Context, logId string) context.Context {
