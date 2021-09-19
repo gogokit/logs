@@ -50,7 +50,7 @@ func InitFromConfigAsString(conf string) {
 	if seeLogIns, err = seelog.LoggerFromConfigAsBytes([]byte(conf)); err != nil {
 		panic(err)
 	}
-	seeLogIns.SetAdditionalStackDepth(1)
+	_ = seeLogIns.SetAdditionalStackDepth(1)
 }
 
 func InitFromConfigAsFile(filePath string) {
@@ -58,31 +58,31 @@ func InitFromConfigAsFile(filePath string) {
 	if seeLogIns, err = seelog.LoggerFromConfigAsFile(filePath); err != nil {
 		panic(err)
 	}
-	seeLogIns.SetAdditionalStackDepth(1)
+	_ = seeLogIns.SetAdditionalStackDepth(1)
 }
 
-func Trace(params ...interface{}) {
-	seeLogIns.Trace(params...)
+func Trace(format string, params ...interface{}) {
+	seeLogIns.Tracef(format, params...)
 }
 
-func Debug(params ...interface{}) {
-	seeLogIns.Debug(params...)
+func Debug(format string, params ...interface{}) {
+	seeLogIns.Debugf(format, params...)
 }
 
-func Info(params ...interface{}) {
-	seeLogIns.Info(params...)
+func Info(format string, params ...interface{}) {
+	seeLogIns.Infof(format, params...)
 }
 
-func Warn(params ...interface{}) {
-	seeLogIns.Warn(params...)
+func Warn(format string, params ...interface{}) {
+	_ = seeLogIns.Warnf(format, params...)
 }
 
-func Error(params ...interface{}) {
-	seeLogIns.Error(params...)
+func Error(format string, params ...interface{}) {
+	_ = seeLogIns.Errorf(format, params...)
 }
 
-func Critical(params ...interface{}) {
-	seeLogIns.Critical(params...)
+func Critical(format string, params ...interface{}) {
+	_ = seeLogIns.Criticalf(format, params...)
 }
 
 func CtxTrace(ctx context.Context, format string, params ...interface{}) {
@@ -98,15 +98,15 @@ func CtxInfo(ctx context.Context, format string, params ...interface{}) {
 }
 
 func CtxWarn(ctx context.Context, format string, params ...interface{}) {
-	seeLogIns.Warnf(newFormatWithLogId(ctx, format), params...)
+	_ = seeLogIns.Warnf(newFormatWithLogId(ctx, format), params...)
 }
 
 func CtxError(ctx context.Context, format string, params ...interface{}) {
-	seeLogIns.Errorf(newFormatWithLogId(ctx, format), params...)
+	_ = seeLogIns.Errorf(newFormatWithLogId(ctx, format), params...)
 }
 
 func CtxCritical(ctx context.Context, format string, params ...interface{}) {
-	seeLogIns.Criticalf(newFormatWithLogId(ctx, format), params...)
+	_ = seeLogIns.Criticalf(newFormatWithLogId(ctx, format), params...)
 }
 
 func Flush() {
