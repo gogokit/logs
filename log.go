@@ -122,6 +122,10 @@ func CtxWithLogId(ctx context.Context, logId string) context.Context {
 	return context.WithValue(ctx, LogIdContextKey, logId)
 }
 
+func NewCtxWithLogId() context.Context {
+	return CtxWithLogId(context.Background(), GenLogId())
+}
+
 func GetLogId(ctx context.Context) string {
 	if ctx == nil {
 		return ""
